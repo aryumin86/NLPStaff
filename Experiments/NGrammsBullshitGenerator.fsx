@@ -57,6 +57,9 @@ type NGramm (rawStr : string) =
     member val Raw = rawStr with get
     member val Tokens = rawStr |> cleanText |> tokenizeToWords with get
 
+    member this.ComputeRealN() = 
+        this.Tokens.Count
+
 
 //Dictionary of beginnings of n-gramms - key is a 1st word in a n-gramm
 let nGramms1stWordsDict = Dictionary<string, NGramm>()
