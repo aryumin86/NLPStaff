@@ -12,7 +12,6 @@
   <ItemGroup>
     <None Include="NGrammsBSRunner.fsx" />
     <None Include="NGrammsBullshitGenerator.fsx" />
-    <None Include="Script1.fsx" />
   </ItemGroup>
 
 </Project>

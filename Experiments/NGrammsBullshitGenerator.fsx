@@ -52,14 +52,14 @@ let tokenizeToSentenses (corpus : string) =
 
 
 //N-gramm type
-type NGramm (rawStr : string, n : int) =
+type NGramm (rawStr : string) =
     member val AtSentenceEnd = false with get, set
     member val Raw = rawStr with get
     member val Tokens = rawStr |> cleanText |> tokenizeToWords with get
 
 
 //Dictionary of beginnings of n-gramms - key is a 1st word in a n-gramm
-let nGramms1stWordsDict = dict<string, NGramm>[]
+let nGramms1stWordsDict = Dictionary<string, NGramm>()
 
 
 //Dictionary of probabilities of n-gramms
@@ -69,11 +69,11 @@ let nGrammsProbabilitiesDict = Dictionary<double, NGramm>()
 
 
 //Adding probabilities of n-gramms to dictionary
-let rec addToNGrammsProbabilitiesDict key ng =
-    if nGrammsProbabilitiesDict.ContainsKey(key) then 
-        addToNGrammsProbabilitiesDict (key + 0.0001) ng
-    else 
-        nGrammsProbabilitiesDict.Add(key, ng)
+//let rec addToNGrammsProbabilitiesDict key ng =
+//    if nGrammsProbabilitiesDict.ContainsKey(key) then 
+//        addToNGrammsProbabilitiesDict (key + 0.0001) ng
+//    else 
+//        nGrammsProbabilitiesDict.Add(key, ng)
 
 
 //Get all names of files in directory
@@ -101,8 +101,12 @@ let rec getNGramms (raw : string[], n : int, startIndex : int, endIndex : int) =
     
 
 
-//Compute probabilities for n-gramms
-
+//Compute probabilities for n-gramms for nGrammsProbabilitiesDict
+let computeNGrammsProbabilities = 
+    let totalNGrammsCount = rawNGrammsDict.Values.Sum()
+    for x in rawNGrammsDict do 
+        let ng = new NGramm(x.Key)
+        nGrammsProbabilitiesDict.Add((double)x.Value / (double)totalNGrammsCount, ng)
 
 
 //Create a dictionary of n-gramms 1-st words
